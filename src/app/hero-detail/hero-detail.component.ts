@@ -38,6 +38,7 @@ getHero(): void {
 }
 
 save(): void {
+  console.log("updaeting "+this.hero.id);
   this.heroService.updateHero(this.hero)
     .subscribe(() => this.goBack());
 }

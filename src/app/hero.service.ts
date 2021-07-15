@@ -80,27 +80,51 @@ export class HeroService {
   }
 
   /** DELETE: delete the hero from the server */
-  deleteHero (hero: Hero): Observable<number> {
+  deleteHero (hero: Hero): Observable<Hero> {
     const id = typeof hero === 'number' ? hero : hero.id;
     const url = `${this.heroesUrl}/${id}`;
 
-
-    console.log("Deleting "+id+" url "+url+" http opt "+httpOptions);
-
-    this.http.delete(url,httpOptions).pipe(
+    this.http.delete(url,httpOptions)
+    .subscribe(
+      (val) => {
+          console.log("DELETE call successful value returned in body", 
+                      val);
+      },
+      response => {
+          console.log("DELETE call in error", response);
+      },
+      () => {
+          console.log("The DELETE observable is now completed.");
+      });
+    
+  /*  pipe(
       tap(_ => this.log(`deleted hero id=${id}`)),
       catchError(this.handleError<Hero>('deleteHero'))
     );
-
-    return of(hero.id);
+*/
+    return of(hero);
   }
 
   /** PUT: update the hero on the server */
   updateHero (hero: Hero): Observable<any> {
-    this.http.put(this.heroesUrl, hero, httpOptions).pipe(
+    this.http.put(this.heroesUrl, hero, httpOptions)
+    .subscribe(
+      (val) => {
+          console.log("Update call successful value returned in body", 
+                      val);
+      },
+      response => {
+          console.log("Update call in error", response);
+      },
+      () => {
+          console.log("Update observable is now completed.");
+      });
+    
+    /*
+    .pipe(
       tap(_ => this.log(`updated hero id=${hero.id}`)),
       catchError(this.handleError<any>('updateHero'))
-    );
+    );*/
 
     return of(hero);
   }
